@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hello Kitty Calculator</title>
+<style>
+    body {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+        height: 100vh;
+        background: #ffe6f0;
+        font-family: 'Comic Sans MS', cursive, sans-serif;
+    }
+    h1 {
+        margin-bottom: 20px;
+        color: #ff4da6;
+        text-shadow: 2px 2px #fff;
+    }
+    #display {
+        width: 260px;
+        height: 50px;
+        font-size: 24px;
+        text-align: right;
+        padding-right: 10px;
+        margin-bottom: 15px;
+        border-radius: 15px;
+        border: 2px solid #ff99cc;
+        background: #fff0f5;
+        transition: all 0.2s ease;
+        box-shadow: 0 4px 8px rgba(255, 77, 166, 0.3);
+    }
+    #Calci {
+        display: grid;
+        grid-template-columns: repeat(4, 65px);
+        gap: 12px;
+    }
+    #Calci button {
+        width: 65px;
+        height: 65px;
+        font-size: 22px;
+        border-radius: 50%;
+        border: 2px solid #ff99cc;
+        background: #ffb6c1;
+        color: #fff;
+        cursor: pointer;
+        box-shadow: 0 4px #ff80aa;
+        transition: all 0.2s ease;
+        font-weight: bold;
+    }
+    #Calci button:hover {
+        background: #ff99cc;
+        transform: scale(1.1);
+    }
+    #Calci button:active {
+        transform: translateY(2px);
+        box-shadow: 0 2px #ff80aa;
+    }
+    .result-animation {
+        animation: pop 0.4s ease;
+    }
+    @keyframes pop {
+        0% { transform: scale(1); color: #ff4da6; }
+        50% { transform: scale(1.4); color: #ff66b2; }
+        100% { transform: scale(1); color: #ff4da6; }
+    }
+</style>
+</head>
+<body>
+<h1>Hello Kitty Calculator</h1>
+<input id="display" readonly />
+<div id="Calci"></div>
+
+<script>
+    const display = document.getElementById("display");
+    const Calci = document.getElementById("Calci");
+    let currentInput = "";
+
+    const buttons = [
+        "1","2","3","+",
+        "4","5","6","-",
+        "7","8","9","*",
+        "0",".","/","Enter",
+        "reset"
+    ];
+
+    buttons.forEach(btnText => {
+        const btn = document.createElement("button");
+        btn.textContent = btnText;
+        Calci.appendChild(btn);
+
+        btn.addEventListener("click", function() {
+            if(btnText === "Enter") {
+                try {
+                    currentInput = eval(currentInput);
+                    display.value = currentInput;
+                    display.classList.add("result-animation");
+                    setTimeout(() => display.classList.remove("result-animation"), 400);
+                } catch {
+                    display.value = "Error";
+                }
+            } else if(btnText.toLowerCase() === "reset") {
+                currentInput = "";
+                display.value = "";
+            } else {
+                currentInput += btnText;
+                display.value = currentInput;
+            }
+        });
+    });
+</script>
+</body>
+</html>
